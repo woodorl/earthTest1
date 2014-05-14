@@ -14,7 +14,7 @@
           var renderer = new THREE.WebGLRenderer();
           renderer.setSize(window.innerWidth, window.innerHeight);
           document.body.appendChild(renderer.domElement);
-          var geometry   = new THREE.SphereGeometry(0.5, 32, 32)
+          var geometry   = new THREE.SphereGeometry(6, 32, 32)
           var material  = new THREE.MeshPhongMaterial()
           var earthMesh = new THREE.Mesh(geometry, material)
           scene.add(earthMesh)    
@@ -26,7 +26,7 @@
           material.specular  = new THREE.Color('grey')
           
           var canvasCloud = [];
-          var geometry   = new THREE.SphereGeometry(20, 32, 64)
+          var geometry   = new THREE.SphereGeometry(0.5, 32, 32)
           var material  = new THREE.MeshPhongMaterial({
             map     : new THREE.Texture(canvasCloud),
             side        : THREE.DoubleSide,
