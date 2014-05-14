@@ -21,12 +21,12 @@
           
           // material.map    = THREE.ImageUtils.loadTexture('images/earthmap1k.jpg')
           material.bumpMap    = THREE.ImageUtils.loadTexture('images/earthbump1k.jpg')
-          material.bumpScale = -1;
+          material.bumpScale = 3;
           material.specularMap    = THREE.ImageUtils.loadTexture('images/earthspec1k.jpg')
           material.specular  = new THREE.Color('grey')
           
           var canvasCloud = [];
-          var geometry   = new THREE.SphereGeometry(3, 32, 32)
+          var geometry   = new THREE.SphereGeometry(20, 32, 32)
           var material  = new THREE.MeshPhongMaterial({
             map     : new THREE.Texture(canvasCloud),
             side        : THREE.DoubleSide,
