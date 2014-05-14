@@ -37,7 +37,7 @@
         }
 
         #bump {
-          width: 10px;
+          width: 20px;
           height: 20px;
           text-align: center;
         }
@@ -77,11 +77,11 @@
           var earthMesh = new THREE.Mesh(geometry, material)
           scene.add(earthMesh)    
           
-          // material.map    = THREE.ImageUtils.loadTexture('images/earthmap1k.jpg')
-          material.bumpMap    = THREE.ImageUtils.loadTexture('images/earthbump1k.jpg')
+          material.map    = THREE.ImageUtils.loadTexture('images/earthmap1k.jpg');
+          material.bumpMap    = THREE.ImageUtils.loadTexture('images/earthbump1k.jpg');
           material.bumpScale = 3;
-          material.specularMap    = THREE.ImageUtils.loadTexture('images/earthspec1k.jpg')
-          material.specular  = new THREE.Color('grey')
+          material.specularMap    = THREE.ImageUtils.loadTexture('images/earthspec1k.jpg');
+          material.specular  = new THREE.Color('grey');
           
           var canvasCloud = [];
           var geometry   = new THREE.SphereGeometry(0.5, 32, 32)
