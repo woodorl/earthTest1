@@ -23,6 +23,13 @@
           font-size: 12px;
           opacity: 1;
           z-index: 2;
+          cursor: pointer
+        }
+
+        .info {
+          color: #fff;
+          background-color: black;
+          font-size: 12px;
         }
 
         #btn_left {
@@ -34,7 +41,7 @@
         #btn_right {
           position: absolute;
           top: 40px;
-          left: 110px;
+          left: 130px;
         }
 
         #btn_bg{
@@ -127,8 +134,9 @@
       </script>
       <div id = "wrapper">
         <div id = "btn_bg"></div>
-        <div class = "btn" id = "btn_left">LEFT</div>
-        <div class = "btn" id = "btn_right">RIGHT</div>
+        <div class = "btn" id = "btn_left"></div>
+        <div class = "info" id = "bump">1</div>
+        <div class = "btn" id = "btn_right">></div>
       </div>
     </body>
 </html>
