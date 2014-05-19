@@ -4,14 +4,15 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 var geometry   = new THREE.SphereGeometry(1, 32, 32)
-var material  = new THREE.MeshPhongMaterial()
-var earthMesh = new THREE.Mesh(geometry, material)
+var material  = new THREE.MeshPhongMaterial();
+var earthMesh = new THREE.Mesh(geometry, material);
+var bumpValue = 0;
 
 scene.add(earthMesh)    
 
 // material.map    = THREE.ImageUtils.loadTexture('images/earthmap1k.jpg');
 material.bumpMap    = THREE.ImageUtils.loadTexture('images/earthbump1k.jpg');
-material.bumpScale = 0.01;
+material.bumpScale = bumpValue;
 // material.specularMap    = THREE.ImageUtils.loadTexture('images/earthspec1k.jpg');
 material.specular  = new THREE.Color('grey');
 
@@ -60,8 +61,6 @@ camera.lookAt( scene.position )
 var btnLeft = document.querySelector('#btn_left');
 var btnRight = document.querySelector('#btn_right');
 var bumpInfo = document.querySelector('#bump');
-var bumpValue = 0;
-
          
 btnLeft.onclick = function() {
   console.log(bumpValue);
