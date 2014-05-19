@@ -1,3 +1,30 @@
+var btnLeft = document.querySelector('#btn_left');
+var btnRight = document.querySelector('#btn_right');
+var bumpInfo = document.querySelector('#bump');
+var bumpScale = 0;
+
+         
+btnLeft.onclick = function() {
+  console.log(bumpScale);
+  if (bumpScale > -9) {
+      bumpScale--;
+  }else{
+      bumpScale = -9;
+  }
+  bumpInfo.innerHTML = bumpScale;
+}
+btnRight.onclick = function() {
+  console.log(bumpScale);
+  if (bumpScale < 9) {
+      bumpScale++;
+  }else{
+      bumpScale = 9;
+  } 
+  bumpInfo.innerHTML = bumpScale;
+}
+
+
+
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 var renderer = new THREE.WebGLRenderer();
@@ -73,28 +100,3 @@ onRenderFcts.forEach(function(onRenderFct){
 })
 })
 
-
-var btnLeft = document.querySelector('#btn_left');
-var btnRight = document.querySelector('#btn_right');
-var bumpInfo = document.querySelector('#bump');
-var bumpScale = 0;
-
-         
-btnLeft.onclick = function() {
-  console.log(bumpScale);
-  if (bumpScale > -9) {
-      bumpScale--;
-  }else{
-      bumpScale = -9;
-  }
-  bumpInfo.innerHTML = bumpScale;
-}
-btnRight.onclick = function() {
-  console.log(bumpScale);
-  if (bumpScale < 9) {
-      bumpScale++;
-  }else{
-      bumpScale = 9;
-  } 
-  bumpInfo.innerHTML = bumpScale;
-}
