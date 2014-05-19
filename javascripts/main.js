@@ -61,6 +61,7 @@ camera.lookAt( scene.position )
 var btnLeft = document.querySelector('#btn_left');
 var btnRight = document.querySelector('#btn_right');
 var bumpInfo = document.querySelector('#bump');
+bumpInfo.innerHTML = bumpValue;
          
 btnLeft.onclick = function() {
   console.log(bumpValue);
