@@ -1,30 +1,3 @@
-var btnLeft = document.querySelector('#btn_left');
-var btnRight = document.querySelector('#btn_right');
-var bumpInfo = document.querySelector('#bump');
-var bumpScale = 0;
-
-         
-btnLeft.onclick = function() {
-  console.log(bumpScale);
-  if (bumpScale > -9) {
-      bumpScale--;
-  }else{
-      bumpScale = -9;
-  }
-  bumpInfo.innerHTML = bumpScale;
-}
-btnRight.onclick = function() {
-  console.log(bumpScale);
-  if (bumpScale < 9) {
-      bumpScale++;
-  }else{
-      bumpScale = 9;
-  } 
-  bumpInfo.innerHTML = bumpScale;
-}
-
-
-
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 var renderer = new THREE.WebGLRenderer();
@@ -37,7 +10,7 @@ scene.add(earthMesh)
 
 // material.map    = THREE.ImageUtils.loadTexture('images/earthmap1k.jpg');
 material.bumpMap    = THREE.ImageUtils.loadTexture('images/earthbump1k.jpg');
-material.bumpScale = bumpScale;
+material.bumpScale = bumpScale * 0.01;
 // material.specularMap    = THREE.ImageUtils.loadTexture('images/earthspec1k.jpg');
 material.specular  = new THREE.Color('grey');
 
@@ -99,4 +72,36 @@ onRenderFcts.forEach(function(onRenderFct){
   onRenderFct(deltaMsec/1000, nowMsec/1000)
 })
 })
+
+
+
+
+var btnLeft = document.querySelector('#btn_left');
+var btnRight = document.querySelector('#btn_right');
+var bumpInfo = document.querySelector('#bump');
+var bumpScale = 0;
+
+         
+btnLeft.onclick = function() {
+  console.log(bumpScale);
+  if (bumpScale > -9) {
+      bumpScale--;
+  }else{
+      bumpScale = -9;
+  }
+  bumpInfo.innerHTML = bumpScale;
+  material.bumpScale = bumpScale * 0.01;
+}
+btnRight.onclick = function() {
+  console.log(bumpScale);
+  if (bumpScale < 9) {
+      bumpScale++;
+  }else{
+      bumpScale = 9;
+  } 
+  bumpInfo.innerHTML = bumpScale;
+  material.bumpScale = bumpScale * 0.01;
+}
+
+
 
