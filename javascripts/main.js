@@ -10,7 +10,7 @@ scene.add(earthMesh)
 
 // material.map    = THREE.ImageUtils.loadTexture('images/earthmap1k.jpg');
 material.bumpMap    = THREE.ImageUtils.loadTexture('images/earthbump1k.jpg');
-material.bumpScale = bumpScale * 0.01;
+material.bumpScale = 0.01;
 // material.specularMap    = THREE.ImageUtils.loadTexture('images/earthspec1k.jpg');
 material.specular  = new THREE.Color('grey');
 
