@@ -6,6 +6,7 @@ document.body.appendChild(renderer.domElement);
 var geometry   = new THREE.SphereGeometry(1, 32, 32)
 var material  = new THREE.MeshPhongMaterial()
 var earthMesh = new THREE.Mesh(geometry, material)
+
 scene.add(earthMesh)    
 
 // material.map    = THREE.ImageUtils.loadTexture('images/earthmap1k.jpg');
@@ -52,26 +53,6 @@ camera.position.y += (mouse.y*5 - camera.position.y) * (delta*3)
 camera.lookAt( scene.position )
 })
 
-function render() {
-  requestAnimationFrame(render);
-  renderer.render(scene, camera);
-}
-
-render();
-
-var lastTimeMsec= null
-requestAnimationFrame(function animate(nowMsec){
-// keep looping
-requestAnimationFrame( animate );
-// measure time
-lastTimeMsec  = lastTimeMsec || nowMsec-1000/60
-var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
-lastTimeMsec  = nowMsec
-// call each update function
-onRenderFcts.forEach(function(onRenderFct){
-  onRenderFct(deltaMsec/1000, nowMsec/1000)
-})
-})
 
 
 
@@ -105,3 +86,23 @@ btnRight.onclick = function() {
 
 
 
+function render() {
+  requestAnimationFrame(render);
+  renderer.render(scene, camera);
+}
+
+render();
+
+var lastTimeMsec= null
+requestAnimationFrame(function animate(nowMsec){
+// keep looping
+requestAnimationFrame( animate );
+// measure time
+lastTimeMsec  = lastTimeMsec || nowMsec-1000/60
+var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
+lastTimeMsec  = nowMsec
+// call each update function
+onRenderFcts.forEach(function(onRenderFct){
+  onRenderFct(deltaMsec/1000, nowMsec/1000)
+})
+})
