@@ -60,28 +60,28 @@ camera.lookAt( scene.position )
 var btnLeft = document.querySelector('#btn_left');
 var btnRight = document.querySelector('#btn_right');
 var bumpInfo = document.querySelector('#bump');
-var bumpScale = 0;
+var bumpValue = 0;
 
          
 btnLeft.onclick = function() {
-  console.log(bumpScale);
-  if (bumpScale > -9) {
-      bumpScale--;
+  console.log(bumpValue);
+  if (bumpValue > -9) {
+      bumpValue--;
   }else{
-      bumpScale = -9;
+      bumpValue = -9;
   }
-  bumpInfo.innerHTML = bumpScale;
-  material.bumpScale = bumpScale * 0.01;
+  bumpInfo.innerHTML = bumpValue;
+  material.bumpScale = bumpValue * 0.01;
 }
 btnRight.onclick = function() {
-  console.log(bumpScale);
-  if (bumpScale < 9) {
-      bumpScale++;
+  console.log(bumpValue);
+  if (bumpValue < 9) {
+      bumpValue++;
   }else{
-      bumpScale = 9;
+      bumpValue = 9;
   } 
-  bumpInfo.innerHTML = bumpScale;
-  material.bumpScale = bumpScale * 0.01;
+  bumpInfo.innerHTML = bumpValue;
+  material.bumpScale = bumpValue * 0.01;
 }
 
 
