@@ -1,3 +1,6 @@
+/////////////////////////////////////////////////////////////////////////////
+///////////////////////three.js scene setting////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 var renderer = new THREE.WebGLRenderer();
@@ -54,9 +57,30 @@ camera.position.y += (mouse.y*5 - camera.position.y) * (delta*3)
 camera.lookAt( scene.position )
 })
 
+function render() {
+  requestAnimationFrame(render);
+  renderer.render(scene, camera);
+}
 
+render();
 
+var lastTimeMsec= null
+requestAnimationFrame(function animate(nowMsec){
+// keep looping
+requestAnimationFrame( animate );
+// measure time
+lastTimeMsec  = lastTimeMsec || nowMsec-1000/60
+var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
+lastTimeMsec  = nowMsec
+// call each update function
+onRenderFcts.forEach(function(onRenderFct){
+  onRenderFct(deltaMsec/1000, nowMsec/1000)
+})
+})
 
+/////////////////////////////////////////////////////////////////////////////
+////////////////////////control panel setting////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 var btnLeft = document.querySelector('#btn_left');
 var btnRight = document.querySelector('#btn_right');
@@ -84,25 +108,143 @@ btnRight.onclick = function() {
   material.bumpScale = bumpValue * 0.1;
 }
 
+/////////////////////////////////////////////////////////////////////////////
+////////////////////////////////d3.js setting////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
+var w = 300;
+var h = 100;
+var month = 1;
+var barPadding = 1;
+var dataset = [8, 14, 20, 13, 23, 40, 7, 9, 3, 25, 24, 17, 18, 8, 12, 4, 22, 16];
 
-function render() {
-  requestAnimationFrame(render);
-  renderer.render(scene, camera);
-}
+var svg = d3.select("body").append("svg").attr("width",w).attr("height",h);
 
-render();
+var yScale = d3.scale.linear()
+                   .domain([0, d3.max(dataset)])
+                   .range([0, h]);
 
-var lastTimeMsec= null
-requestAnimationFrame(function animate(nowMsec){
-// keep looping
-requestAnimationFrame( animate );
-// measure time
-lastTimeMsec  = lastTimeMsec || nowMsec-1000/60
-var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
-lastTimeMsec  = nowMsec
-// call each update function
-onRenderFcts.forEach(function(onRenderFct){
-  onRenderFct(deltaMsec/1000, nowMsec/1000)
-})
-})
+var xScale = d3.scale.ordinal()
+                   .domain(d3.range(dataset.length))
+                   .rangeRoundBands([0,w], 0.05);
+
+svg.selectAll("rect")
+ .data(dataset)
+ .enter()
+ .append("rect")
+ .attr({
+     x: function(d, i) {return xScale(i)},
+     y: function(d) {return h - yScale(d)},
+     width: xScale.rangeBand(),
+     height: function(d) {return yScale(d)},
+     fill: function(d) {return "rgb(" + (255 - d * 8) + ", " + (255- d * 8) + ", " + (255- d * 3) + ")";}
+ })
+svg.selectAll("text")
+ .data(dataset)
+ .enter()
+ .append("text")
+ .text(function(d) {
+     return d;
+ })
+ .attr({
+     x: function(d, i) {return xScale(i) + xScale.rangeBand() / 2;},
+     y: function(d) {return h - yScale(d) + 12;},
+     "font-family": "sans-serif",
+     "font-size": "11px",
+     "fill": "white",
+     "text-anchor": "middle",
+     "font-weight": "bold",
+     "cursor": "default"
+  });
+
+d3.select("#btn_left")
+.on("click", function(){
+      if(bumpValue == -9){
+          bumpValue = -9;
+      }else{
+          bumpValue--;                    
+
+          var bars = svg.selectAll("rect")
+                         .data(dataset);
+
+           var maxValue = 40;
+           var numValues = dataset.length;
+           dataset = [];
+           for (var i = 0; i < numValues; i++) {
+               var newNumber = Math.floor(Math.random() * maxValue);
+               dataset.push(newNumber);
+           }
+           yScale.domain([0, d3.max(dataset)]);
+
+           svg.selectAll("rect")
+              .data(dataset)
+              .transition()
+              .delay(function(d,i){return i / dataset.length * 500})
+              .duration(1000)
+              .ease("circle-in-out")
+              .attr({
+                  y: function(d){return h - yScale(d)},
+                  height: function(d){return yScale(d)},
+                  fill: function(d) {return "rgb(" + (255 - d * 8) + ", " + (255- d * 8) + ", " + (255- d * 3) + ")";}
+              })
+
+           svg.selectAll("text")
+              .data(dataset)
+              .transition()
+              .delay(function(d,i){return i / dataset.length * 500})
+              .duration(1000)
+              .ease("circle-in-out")
+              .text(function(d){return d})
+              .attr({
+                  y: function(d){return h - yScale(d) + 12}
+              })
+        };  
+        d3.select("#date")
+          .text(month + "월");
+});
+
+d3.select("#btn_right")
+.on("click", function(){
+      if(bumpValue == 9){
+          bumpValue = 9;
+      }else{
+          bumpValue++;
+
+          var bars = svg.selectAll("rect")
+                         .data(dataset);
+
+           var maxValue = 40;
+           var numValues = dataset.length;
+           dataset = [];
+           for (var i = 0; i < numValues; i++) {
+               var newNumber = Math.floor(Math.random() * maxValue);
+               dataset.push(newNumber);
+           }
+           yScale.domain([0, d3.max(dataset)]);
+
+           svg.selectAll("rect")
+              .data(dataset)
+              .transition()
+              .delay(function(d,i){return i / dataset.length * 500})
+              .duration(500)
+              .ease("circle-in-out")
+              .attr({
+                  y: function(d){return h - yScale(d)},
+                  height: function(d){return yScale(d)},
+                  fill: function(d) {return "rgb(" + (255 - d * 8) + ", " + (255- d * 8) + ", " + (255- d * 3) + ")";}
+              })
+
+           svg.selectAll("text")
+              .data(dataset)
+              .transition()
+              .delay(function(d,i){return i / dataset.length * 500})
+              .duration(500)
+              .ease("circle-in-out")
+              .text(function(d){return d})
+              .attr({
+                  y: function(d){return h - yScale(d) + 12}
+              })
+         };
+       d3.select("#date")
+         .text(month + "월");
+      });
