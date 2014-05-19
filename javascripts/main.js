@@ -70,7 +70,7 @@ btnLeft.onclick = function() {
       bumpValue = -9;
   }
   bumpInfo.innerHTML = bumpValue;
-  material.bumpScale = bumpValue * 0.01;
+  material.bumpScale = bumpValue * 0.1;
 }
 btnRight.onclick = function() {
   console.log(bumpValue);
@@ -80,7 +80,7 @@ btnRight.onclick = function() {
       bumpValue = 9;
   } 
   bumpInfo.innerHTML = bumpValue;
-  material.bumpScale = bumpValue * 0.01;
+  material.bumpScale = bumpValue * 0.1;
 }
 
 
