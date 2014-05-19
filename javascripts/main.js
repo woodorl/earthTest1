@@ -161,8 +161,7 @@ d3.select("#btn_left")
 .on("click", function(){
       if(bumpValue == -9){
           bumpValue = -9;
-      }else{
-          bumpValue--;                    
+      }else{                  
 
           var bars = svg.selectAll("rect")
                          .data(dataset);
@@ -208,7 +207,6 @@ d3.select("#btn_right")
       if(bumpValue == 9){
           bumpValue = 9;
       }else{
-          bumpValue++;
 
           var bars = svg.selectAll("rect")
                          .data(dataset);
