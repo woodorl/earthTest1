@@ -1,72 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head> 
-      <style>
-        canvas {width:100%; height:100%}
-        #wrapper {
-          position: absolute;
-          top: 40px;
-          left: 100px;
-          width: 200px;
-          height: 400px;
-          outline: #fff solid 2px;
-        }
-
-        .btn {
-          color: #fff;
-          background-color: #33f;
-          position: relative;
-          width: 40px;
-          height: 20px;
-          text-align: center;
-          line-height: 20px;
-          font-size: 12px;
-          opacity: 1;
-          z-index: 2;
-          cursor: pointer
-        }
-
-        .info {
-          color: #fff;
-          position: absolute;
-          background-color: black;
-          font-size: 14px;
-          top: 40px;
-          left: 90px;
-          line-height: 20px;
-        }
-
-        #bump {
-          width: 20px;
-          height: 20px;
-          text-align: center;
-        }
-
-        #btn_left {
-          position: absolute;
-          top: 40px;
-          left: 30px;
-        }
-
-        #btn_right {
-          position: absolute;
-          top: 40px;
-          left: 130px;
-        }
-
-        #btn_bg{
-          width: 100%;
-          height: 100%;
-          background-color: white;
-          opacity: 0.5;
-          z-index: 0;
-        }
-      </style>
-    <meta charset="utf-8">
+      <link rel="stylesheet" type="text/stylesheet" href="./stylesheets/stylesheet.css">
+      <meta charset="utf-8">
     </head>
     <body>
       <div id = "wrapper">
         <div id = "btn_bg"></div>
+        <div id = "bumpTitle">BUMP SCALE</div>
         <div class = "btn" id = "btn_left"><</div>
         <div class = "info" id = "bump">0</div>
         <div class = "btn" id = "btn_right">></div>
