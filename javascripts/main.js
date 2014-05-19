@@ -6,13 +6,13 @@ document.body.appendChild(renderer.domElement);
 var geometry   = new THREE.SphereGeometry(1, 32, 32)
 var material  = new THREE.MeshPhongMaterial();
 var earthMesh = new THREE.Mesh(geometry, material);
-var bumpValue = 0.1;
+var bumpValue = 1;
 
 scene.add(earthMesh)    
 
 material.map    = THREE.ImageUtils.loadTexture('images/earthmap1k.jpg');
 material.bumpMap    = THREE.ImageUtils.loadTexture('images/earthbump1k.jpg');
-material.bumpScale = bumpValue;
+material.bumpScale = bumpValue * 0.1;
 material.specularMap    = THREE.ImageUtils.loadTexture('images/earthspec1k.jpg');
 material.specular  = new THREE.Color('grey');
 
