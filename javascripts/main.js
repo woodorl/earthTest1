@@ -12,8 +12,8 @@ var earthMesh = new THREE.Mesh(geometry, material);
 var bumpValue = 1;
 var earthDiffuse = 'images/earthmap1k.jpg';
 var earthBump = 'images/earthbump1k.jpg';
-var marsDiffuse = 'mars_1k_color.jpg';
-var marsBump = 'marsbump1k.jpg'
+var marsDiffuse = 'images/mars_1k_color.jpg';
+var marsBump = 'images/marsbump1k.jpg'
 
 scene.add(earthMesh)    
 
