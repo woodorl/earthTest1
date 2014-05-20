@@ -42,13 +42,13 @@ onRenderFcts.push(function(delta, now){
 
 camera.position.z = 2;
 
-var light = new THREE.DirectionalLight( 0xcccccc, 1 )
-light.position.set(5,3,5)
-scene.add( light )
+var light = new THREE.DirectionalLight( 0xcccccc, 1 );
+light.position.set(5,3,5);
+scene.add(light);
 
-var light2 = new THREE.DirectionalLight( 0xcccccc, 0.2 )
-light2.position.set(-5,-3,-5)
-scene.add( light2 )
+var light2 = new THREE.DirectionalLight( 0xcccccc, 0.2 );
+light2.position.set(-5,-3,-5);
+scene.add(light2);
 
 var mouse = {x : 0, y : 0}
 document.addEventListener('mousemove', function(event){
@@ -70,16 +70,16 @@ render();
 
 var lastTimeMsec= null
 requestAnimationFrame(function animate(nowMsec){
-// keep looping
-requestAnimationFrame( animate );
-// measure time
-lastTimeMsec  = lastTimeMsec || nowMsec-1000/60
-var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
-lastTimeMsec  = nowMsec
-// call each update function
-onRenderFcts.forEach(function(onRenderFct){
-  onRenderFct(deltaMsec/1000, nowMsec/1000)
-})
+  // keep looping
+  requestAnimationFrame( animate );
+  // measure time
+  lastTimeMsec  = lastTimeMsec || nowMsec-1000/60
+  var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
+  lastTimeMsec  = nowMsec
+  // call each update function
+  onRenderFcts.forEach(function(onRenderFct){
+    onRenderFct(deltaMsec/1000, nowMsec/1000)
+  })
 })
 
 /////////////////////////////////////////////////////////////////////////////
@@ -91,8 +91,11 @@ var btnRight = document.querySelector('#btn_right');
 var bumpInfo = document.querySelector('#bump');
 var btnEarth = document.querySelector('#btn_earth');
 var btnMars = document.querySelector('#btn_mars');
+var mousePos = document.querySelector('#mousePos');
+var lightText = document.querySelector('#btn_light');
+var lightStat = 0;
 bumpInfo.innerHTML = bumpValue;
-       
+
 btnLeft.onclick = function() {
   console.log(bumpValue);
   if (bumpValue > -9) {
@@ -101,7 +104,8 @@ btnLeft.onclick = function() {
       bumpValue = -9;
   }
   bumpInfo.innerHTML = bumpValue;
-  material.bumpScale = bumpValue * 0.1;
+  earthMesh.material.bumpScale = bumpValue * 0.1;
+  earthMesh.material.needsUpdate = true;
 }
 btnRight.onclick = function() {
   console.log(bumpValue);
@@ -111,21 +115,59 @@ btnRight.onclick = function() {
       bumpValue = 9;
   } 
   bumpInfo.innerHTML = bumpValue;
-  material.bumpScale = bumpValue * 0.1;
+  earthMesh.material.bumpScale = bumpValue * 0.1;
+  earthMesh.material.needsUpdate = true;
 }
 
 btnEarth.onclick = function() {
-  console.log('earth');
-  material.map = THREE.ImageUtils.loadTexture(earthDiffuse);
-  material.bumpMap = THREE.ImageUtils.loadTexture(earthBump);
+  earthMesh.material.map = THREE.ImageUtils.loadTexture(earthDiffuse);
+  earthMesh.material.bumpMap = THREE.ImageUtils.loadTexture(earthBump);
+  earthMesh.material.needsUpdate = true;
 }
 
 btnMars.onclick = function() {
-  console.log('mars');
-  material.map = THREE.ImageUtils.loadTexture(marsDiffuse);
-  material.bumpMap = THREE.ImageUtils.loadTexture(marsBump);
+  earthMesh.material.map = THREE.ImageUtils.loadTexture(marsDiffuse);
+  earthMesh.material.bumpMap = THREE.ImageUtils.loadTexture(marsBump);
+  earthMesh.material.needsUpdate = true;
 }
 
+onmouseup = function mouseXY(e) {
+  var mouseX = e.clientX;
+  var mouseY = e.clientY;
+  console.log(mouseX + ', ' + mouseY)
+  
+  mousePos.innerHTML = mouseX + ', ' + mouseY
+  randomGraph();
+}
+
+
+
+onkeydown = function lightMove(e) {
+  if (e.keyCode == 76) {
+    if(lightStat == 0) {
+      lightStat = 1;
+      onmousemove = function lightXY(e) {
+        var mouseX = (e.clientX - window.innerWidth/2) * 0.1;
+        var mouseY = (window.innerHeight/2 - e.clientY) * 0.1;
+
+        light.position.set(mouseX, mouseY, 5);
+        light.position.needsUpdate = true;
+        lightText.innerHTML = 'press L to stop Light';
+      }
+    } else {
+      lightStat = 0;
+      onmousemove = function lightXY(e) {
+        var mouseX = (e.clientX - window.innerWidth/2) * 0.1;
+        var mouseY = (window.innerHeight/2 - e.clientY) * 0.1;
+        
+        light.position.needsUpdate = false;
+        light.position.set(3, 3, 5);
+        lightText.innerHTML = 'press L to move Light';
+      }
+    }
+  }
+  console.log(lightStat);
+}
 /////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////d3.js setting////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -180,44 +222,8 @@ d3.select("#btn_left")
       if(bumpValue == -9){
           bumpValue = -9;
       }else{                  
-
-          var bars = svg.selectAll("rect")
-                         .data(dataset);
-
-           var maxValue = 40;
-           var numValues = dataset.length;
-           dataset = [];
-           for (var i = 0; i < numValues; i++) {
-               var newNumber = Math.floor(Math.random() * maxValue);
-               dataset.push(newNumber);
-           }
-           yScale.domain([0, d3.max(dataset)]);
-
-           svg.selectAll("rect")
-              .data(dataset)
-              .transition()
-              .delay(function(d,i){return i / dataset.length * 500})
-              .duration(1000)
-              .ease("circle-in-out")
-              .attr({
-                  y: function(d){return h - yScale(d)},
-                  height: function(d){return yScale(d)},
-                  fill: function(d) {return "rgb(" + (255 - d * 8) + ", " + (255- d * 8) + ", " + (255- d * 3) + ")";}
-              })
-
-           svg.selectAll("text")
-              .data(dataset)
-              .transition()
-              .delay(function(d,i){return i / dataset.length * 500})
-              .duration(1000)
-              .ease("circle-in-out")
-              .text(function(d){return d})
-              .attr({
-                  y: function(d){return h - yScale(d) + 12}
-              })
-        };  
-        d3.select("#date")
-          .text(month + "월");
+          randomGraph();
+      };
 });
 
 d3.select("#btn_right")
@@ -225,7 +231,11 @@ d3.select("#btn_right")
       if(bumpValue == 9){
           bumpValue = 9;
       }else{
+        randomGraph();      
+     };
+});
 
+function randomGraph() {
           var bars = svg.selectAll("rect")
                          .data(dataset);
 
@@ -260,7 +270,4 @@ d3.select("#btn_right")
               .attr({
                   y: function(d){return h - yScale(d) + 12}
               })
-         };
-       d3.select("#date")
-         .text(month + "월");
-      });
+}
