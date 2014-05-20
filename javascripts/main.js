@@ -89,8 +89,10 @@ onRenderFcts.forEach(function(onRenderFct){
 var btnLeft = document.querySelector('#btn_left');
 var btnRight = document.querySelector('#btn_right');
 var bumpInfo = document.querySelector('#bump');
+var btnEarth = document.querySelector('#btn_earth');
+var btnMars = document.querySelector('#btn_mars');
 bumpInfo.innerHTML = bumpValue;
-         
+       
 btnLeft.onclick = function() {
   console.log(bumpValue);
   if (bumpValue > -9) {
@@ -110,6 +112,18 @@ btnRight.onclick = function() {
   } 
   bumpInfo.innerHTML = bumpValue;
   material.bumpScale = bumpValue * 0.1;
+}
+
+btnEarth.onclick = function() {
+  console.log('earth');
+  material.map = THREE.ImageUtils.loadTexture(earthDiffuse);
+  material.bumpMap = THREE.ImageUtils.loadTexture(earthBump);
+}
+
+btnMars.onclick = function() {
+  console.log('mars');
+  material.map = THREE.ImageUtils.loadTexture(marsDiffuse);
+  material.bumpMap = THREE.ImageUtils.loadTexture(marsBump);
 }
 
 /////////////////////////////////////////////////////////////////////////////
